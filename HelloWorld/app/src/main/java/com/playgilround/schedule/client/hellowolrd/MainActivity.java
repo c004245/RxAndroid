@@ -1,12 +1,13 @@
 package com.playgilround.schedule.client.hellowolrd;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action1;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,31 +19,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext("Hello RxAndroid.");
-                subscriber.onCompleted();
-            }
-        });
 
-        observable.subscribe(new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "Complete");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "error " + e.toString());
-            }
-
-
-            @Override
-            public void onNext(String s) {
-                Log.d(TAG, "OnNext");
-                ((TextView) findViewById(R.id.tvMain)).setText(s);
-            }
-        });
+        Observable
+                .just("Hello RxAndroid..~")
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        ((TextView) findViewById(R.id.tvMain)).setText(s);
+                    }
+                });
     }
 }
