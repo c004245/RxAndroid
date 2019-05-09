@@ -41,4 +41,6 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
+    //RxBinding
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.3.0'
 }
