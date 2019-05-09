@@ -3,6 +3,7 @@ package com.playgilround.schedule.client.hellowolrd;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 
@@ -66,6 +67,19 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "Error -> " +throwable.getMessage());
                     throwable.printStackTrace();
                 });
+
+        //Event 동시 처리
+        Observable<String> lefts = RxView.clicks(findViewById(R.id.leftButton))
+                .map(event -> "left");
+
+        Observable<String> rights = RxView.clicks(findViewById(R.id.rightButton))
+                .map(event -> "right");
+
+        Observable<String> together = Observable.merge(lefts, rights);
+
+        together.subscribe(text -> ((TextView) findViewById(R.id.tvMerge)).setText(text));
+
+        together.map(String::toUpperCase).subscribe(text -> Toast.makeText(this, text, Toast.LENGTH_LONG).show());
     }
 }
 
