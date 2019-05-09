@@ -2,11 +2,17 @@ package com.playgilround.schedule.client.hellowolrd;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxCompoundButton;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
+import java.nio.charset.Charset;
 import java.util.Random;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +25,27 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.tvMain)
     TextView tvMain;
+
+    @BindView(R.id.checkBox1)
+    CheckBox checkBox1;
+
+    @BindView(R.id.editText1)
+    EditText editText1;
+
+    @BindView(R.id.checkBox2)
+    CheckBox checkBox2;
+
+    @BindView(R.id.editText2)
+    EditText editText2;
+
+    @BindView(R.id.checkBox3)
+    CheckBox checkBox3;
+
+    @BindView(R.id.editText3)
+    EditText editText3;
+
+    @BindView(R.id.loginBtn)
+    Button loginBtn;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -96,6 +123,44 @@ public class MainActivity extends AppCompatActivity {
         together2.scan(0, (sum, number) -> sum + number)
                 .subscribe(number ->
                         ((TextView) findViewById(R.id.tvMain)).setText(number.toString()));
+
+        //한번에 처리 Combine
+        //https://academy.realm.io/kr/posts/rxandroid-3/
+        Observable<Boolean> checks1 = RxCompoundButton.checkedChanges(checkBox1);
+
+        checks1.subscribe(check -> editText1.setEnabled(check));
+
+        Observable<Boolean> textExists1 = RxTextView.text(editText1).map(MainActivity::isEmpty);
+
+        Observable<Boolean> textValidations1 = Observable.combineLatest(checks1, textExists1, (check, exist) -> !check || exist);
+
+        Observable<Boolean> checks2 = RxCompoundButton.checkedChanges(checkBox2);
+
+        checks2.subscribe(check -> editText2.setEnabled(check));
+
+        Observable<Boolean> textExists2 = RxTextView.text(editText2)
+                .map(MainActivity::isEmpty);
+
+
+        Observable<Boolean> textValidations2 = Observable.combineLatest(checks2, textExists2, (check, exist) -> !check || exist);
+
+        Observable<Boolean> checks3 = RxCompoundButton.checkedChanges(checkBox3);
+
+        checks3.subscribe(check -> editText3.setEnabled(check));
+
+        Observable<Boolean> textExists3 = RxTextView.text(editText3).map(MainActivity::isEmpty);
+
+        Observable<Boolean> textValidations3 = Observable.combineLatest(checks3, textExists3, (check, exist) -> !check || exist);
+
+
+        Observable.combineLatest(textValidations1, textValidations2, textValidations3,
+                (validation1, validation2, validation3) ->
+                    validation1 && validation2 && validation3).subscribe(validation -> loginBtn.setEnabled(validation));
+
+    }
+
+    public static boolean isEmpty(CharSequence sequence) {
+        return sequence.length() != 0;
     }
 }
 
