@@ -80,6 +80,22 @@ public class MainActivity extends AppCompatActivity {
         together.subscribe(text -> ((TextView) findViewById(R.id.tvMerge)).setText(text));
 
         together.map(String::toUpperCase).subscribe(text -> Toast.makeText(this, text, Toast.LENGTH_LONG).show());
+
+        //데이터 누적적으로 처리
+        Observable<Integer> minuses = RxView.clicks(findViewById(R.id.minusBtn))
+                .map(event -> -1);
+
+        Observable<Integer> plus = RxView.clicks(findViewById(R.id.plusBtn))
+                .map(event -> 1);
+
+        Observable<Integer> together2 = Observable.merge(minuses, plus);
+        together2.scan(0, (sum, number) -> sum + 1)
+                .subscribe(count ->
+                        ((TextView) findViewById(R.id.tvMain)).setText(count.toString()));
+
+        together2.scan(0, (sum, number) -> sum + number)
+                .subscribe(number ->
+                        ((TextView) findViewById(R.id.tvMain)).setText(number.toString()));
     }
 }
 
