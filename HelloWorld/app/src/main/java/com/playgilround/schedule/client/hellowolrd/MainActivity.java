@@ -47,5 +47,11 @@ public class MainActivity extends AppCompatActivity {
                         tvMain.setText(s);
                     }
                 });
+
+        simpleObservable.map(text -> {
+            Log.d(TAG, "Text here..." + text);
+            return text.toUpperCase();
+        }).subscribe(s -> tvMain.setText(s));
     }
 }
+
