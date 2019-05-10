@@ -14,11 +14,11 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
 
     private final List<GithubRepo> repos;
 
-    RepoAdapter(List<GithubRepo> repos) {
+    public RepoAdapter(List<GithubRepo> repos) {
         this.repos = repos;
     }
 
-    void updateItems(List<GithubRepo> items) {
+    public void updateItems(List<GithubRepo> items) {
         this.repos.clear();
         this.repos.addAll(items);
         notifyDataSetChanged();
