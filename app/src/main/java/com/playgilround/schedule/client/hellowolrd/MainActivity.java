@@ -10,9 +10,7 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
-import com.jakewharton.rxbinding.widget.RxTextView;
 
-import java.nio.charset.Charset;
 import java.util.Random;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -130,32 +128,32 @@ public class MainActivity extends AppCompatActivity {
 
         checks1.subscribe(check -> editText1.setEnabled(check));
 
-        Observable<Boolean> textExists1 = RxTextView.text(editText1).map(MainActivity::isEmpty);
+        //Observable<Boolean> textExists1 = RxTextView.text(editText1).map(MainActivity::isEmpty);
 
-        Observable<Boolean> textValidations1 = Observable.combineLatest(checks1, textExists1, (check, exist) -> !check || exist);
+        //Observable<Boolean> textValidations1 = Observable.combineLatest(checks1, textExists1, (check, exist) -> !check || exist);
 
         Observable<Boolean> checks2 = RxCompoundButton.checkedChanges(checkBox2);
 
         checks2.subscribe(check -> editText2.setEnabled(check));
 
-        Observable<Boolean> textExists2 = RxTextView.text(editText2)
-                .map(MainActivity::isEmpty);
+        //Observable<Boolean> textExists2 = RxTextView.text(editText2)
+        //        .map(MainActivity::isEmpty);
 
 
-        Observable<Boolean> textValidations2 = Observable.combineLatest(checks2, textExists2, (check, exist) -> !check || exist);
+        //Observable<Boolean> textValidations2 = Observable.combineLatest(checks2, textExists2, (check, exist) -> !check || exist);
 
         Observable<Boolean> checks3 = RxCompoundButton.checkedChanges(checkBox3);
 
         checks3.subscribe(check -> editText3.setEnabled(check));
 
-        Observable<Boolean> textExists3 = RxTextView.text(editText3).map(MainActivity::isEmpty);
+        //Observable<Boolean> textExists3 = RxTextView.text(editText3).map(MainActivity::isEmpty);
 
-        Observable<Boolean> textValidations3 = Observable.combineLatest(checks3, textExists3, (check, exist) -> !check || exist);
+        //Observable<Boolean> textValidations3 = Observable.combineLatest(checks3, textExists3, (check, exist) -> !check || exist);
 
 
-        Observable.combineLatest(textValidations1, textValidations2, textValidations3,
-                (validation1, validation2, validation3) ->
-                    validation1 && validation2 && validation3).subscribe(validation -> loginBtn.setEnabled(validation));
+        //Observable.combineLatest(textValidations1, textValidations2, textValidations3,
+        //        (validation1, validation2, validation3) ->
+                    //validation1 && validation2 && validation3).subscribe(validation -> loginBtn.setEnabled(validation));
 
     }
 
