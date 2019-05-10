@@ -9,6 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
+import rx.functions.Func1;
 
 
 public class RxJavaActivity extends Activity {
@@ -25,16 +26,20 @@ public class RxJavaActivity extends Activity {
 
         ButterKnife.bind(this);
         //전달 Observable
-        rx.Observable<String> myObservable = Observable.create(
-                subscripber -> {
-                    subscripber.onNext("Hello");
-                    Log.d(TAG,"Hello");
-                    subscripber.onNext("world");
-                    Log.d(TAG,"World");
-                    subscripber.onCompleted();
-                    Log.d(TAG,"onComplete1");
-                }
-        );
+        //rx.Observable<String> myObservable = Observable.create(
+        //        subscripber -> {
+        //            subscripber.onNext("Hello");
+        //            Log.d(TAG,"Hello");
+        //            subscripber.onNext("world");
+        //            Log.d(TAG,"World");
+        //            subscripber.onCompleted();
+        //            Log.d(TAG,"onComplete1");
+        //        }
+        //);
+
+        //Observable 요약
+        Observable.from(new String[] {"Hello", "world"}).subscribe(System.out::println);
+        //myObservable.subscribe(s -> Log.d(TAG, "s ->" +s));
 
         //수신받는 Observer
         Observer<String> myObserver = new Observer<String>() {
@@ -55,6 +60,21 @@ public class RxJavaActivity extends Activity {
             }
         };
 
-        myObservable.subscribe(myObserver);
+        Observable.from(new String[]{"Hello", "world"})
+                .map(s -> {
+                    Log.d(TAG, "s size ->" + s);
+                    return s.length();
+                }).subscribe(i -> {
+                    Log.d(TAG, "s size ->" + i);
+                    System.out.print(i);
+                });
+
+        //myObservable.subscribe(myObserver);
+
+        String[][] helloAndGoodBye = {{"Hello", "World!"}, {"GoodBye", "World.."}};
+        Observable.from(helloAndGoodBye)
+                .flatMap((Func1<String[], Observable<String>>) strings -> Observable.from(strings))
+                .map(s -> s.length()).subscribe(i -> Log.d(TAG, "Test ->" + i));
+
     }
 }
