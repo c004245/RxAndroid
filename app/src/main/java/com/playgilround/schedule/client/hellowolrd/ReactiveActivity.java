@@ -19,6 +19,7 @@ public class ReactiveActivity extends Activity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.rx_main);
         binding.tvTemperature.setText("받아온 온도가 없습니다.");
-        
+
+        disposable =
     }
 }
