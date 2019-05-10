@@ -73,8 +73,12 @@ public class RxJavaActivity extends Activity {
 
         String[][] helloAndGoodBye = {{"Hello", "World!"}, {"GoodBye", "World.."}};
         Observable.from(helloAndGoodBye)
-                .flatMap((Func1<String[], Observable<String>>) strings -> Observable.from(strings))
-                .map(s -> s.length()).subscribe(i -> Log.d(TAG, "Test ->" + i));
+                .flatMap((Func1<String[], Observable<String>>) Observable::from)
+                .map(String::length).subscribe(i -> Log.d(TAG, "Test ->" + i));
+
+        String[][] helloAndGoodBye2 = {{"Hello", "World!"}, {"GoodBye", "World.."}};
+        Observable.merge(Observable.from(helloAndGoodBye2[0]), Observable.from(helloAndGoodBye2[1]))
+                .map(String::length).subscribe(i -> Log.d(TAG, "Merge ->" + i));
 
     }
 }
