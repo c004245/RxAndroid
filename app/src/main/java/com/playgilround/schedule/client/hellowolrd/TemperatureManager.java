@@ -1,9 +1,9 @@
 package com.playgilround.schedule.client.hellowolrd;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 class TemperatureManager {
 
@@ -20,7 +20,7 @@ class TemperatureManager {
     }
 
     //UI Event 연결
-    private PublishSubject<Temperature> subject = PublishSubject.create();
+    private io.reactivex.subjects.PublishSubject<Temperature> subject = PublishSubject.create();
 
     void setTemperature(Temperature temperature) {
         subject.onNext(temperature);

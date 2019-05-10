@@ -3,9 +3,7 @@ package com.playgilround.schedule.client.hellowolrd;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
@@ -15,9 +13,6 @@ import rx.functions.Func1;
 public class RxJavaActivity extends Activity {
 
     private static final String TAG = RxJavaActivity.class.getSimpleName();
-
-    @BindView(R.id.tvTest)
-    TextView tvTest;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +51,7 @@ public class RxJavaActivity extends Activity {
             @Override
             public void onNext(String s) {
                 Log.d(TAG,"onNext ->" +s);
-                tvTest.setText(s);
+                //tvTest.setText(s);
             }
         };
 
