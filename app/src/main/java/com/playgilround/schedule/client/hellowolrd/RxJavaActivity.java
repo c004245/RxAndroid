@@ -80,5 +80,11 @@ public class RxJavaActivity extends Activity {
         Observable.merge(Observable.from(helloAndGoodBye2[0]), Observable.from(helloAndGoodBye2[1]))
                 .map(String::length).subscribe(i -> Log.d(TAG, "Merge ->" + i));
 
+
+        //filter test
+        String[][] helloAndGoodBye3 = {{"Hello", "World!"}, {"GoodBye", "World.."}};
+        Observable.from(helloAndGoodBye3)
+                .flatMap((Func1<String[], Observable<String>>) strings -> Observable.from(strings)).filter(s -> !s.equals("World!")).map(s -> s.length()).subscribe(integer -> Log.d(TAG ,"REsult ->" + integer));
+
     }
 }
