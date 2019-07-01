@@ -50,6 +50,7 @@ dependencies {
 
     //RxBinding
     implementation 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    implementation 'com.android.support:recyclerview-v7:28.1.0'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
