@@ -6,9 +6,9 @@ public class YahooStockQuery {
 
     private int count;
     private Date created;
-    private YahooStockResult results;
+    private YahooStockResults results;
 
-    public YahooStockResult getResults() {
+    public YahooStockResults getResults() {
         return results;
     }
 

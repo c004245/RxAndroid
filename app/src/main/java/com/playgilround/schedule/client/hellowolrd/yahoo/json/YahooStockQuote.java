@@ -23,6 +23,9 @@ public class YahooStockQuote {
     @SerializedName("Volume")
     private String volume;
 
+    public String getSymbol() {
+        return symbol;
+    }
     public String getName() {
         return name;
     }
