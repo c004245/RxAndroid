@@ -64,4 +64,8 @@ dependencies {
     //Recycler
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    //StorIO
+    implementation 'com.pushtorefresh.storio:sqlite:1.12.1'
+    annotationProcessor 'com.pushtorefresh.storio:sqlite-annotations-processor:1.12.1'
 }
