@@ -54,6 +54,18 @@ public class TestActivity extends Activity {
                 new StockUpdate("GOOGLE", 12.43, new Date()),
                 new StockUpdate("APPL", 645.1, new Date()),
                 new StockUpdate("TWTR", 1.43, new Date())
-        ).subscribe(stockUpdate -> stockDataAdapter.add(stockUpdate));
+//        ).subscribe(stockUpdate -> stockDataAdapter.add(stockUpdate));
+        ).subscribe(stockDataAdapter::add);
+
     }
+
+    private void log(String stage, String item) {
+        Log.d("APP", stage + ":" + Thread.currentThread().getName() + ":" + item);
+    }
+
+    private void log(String stage) {
+        Log.d("APP", stage + ":" + Thread.currentThread().getName());
+    }
+
+
 }
