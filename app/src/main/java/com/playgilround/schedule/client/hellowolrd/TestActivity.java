@@ -13,6 +13,8 @@ import com.playgilround.schedule.client.hellowolrd.util.StockUpdate;
 import com.playgilround.schedule.client.hellowolrd.yahoo.RetrofitYahooServiceFactory;
 import com.playgilround.schedule.client.hellowolrd.yahoo.YahooService;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -64,9 +66,11 @@ public class TestActivity extends Activity {
         String query = "select * from yahoo.finance.quote where symbol in ('YHOO','AAPL''GOOG','MSFT')";
         String env = "store://datatables.org/alltableswithkeys";
 
-        yahooService.yqlQuery(query, env)
-                .subscribeOn(Schedulers.io())
-                .toObservable()
+        Observable.interval(0, 5, TimeUnit.SECONDS)
+                .flatMap(
+                        i -> yahooService.yqlQuery(query, env).toObservable()
+
+                ).subscribeOn(Schedulers.io())
                 .map(r -> r.getQuery().getResults().getQuote())
                 .flatMap(r -> Observable.fromIterable(r))
                 .map(r -> StockUpdate.create(r))
