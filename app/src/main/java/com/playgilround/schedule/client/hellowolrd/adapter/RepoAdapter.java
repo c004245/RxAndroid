@@ -1,14 +1,14 @@
-package com.playgilround.schedule.client.hellowolrd.Adapter;
+package com.playgilround.schedule.client.hellowolrd.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.playgilround.schedule.client.hellowolrd.databinding.ItemRepoBinding;
 import com.playgilround.schedule.client.hellowolrd.util.GithubRepo;
 
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
 

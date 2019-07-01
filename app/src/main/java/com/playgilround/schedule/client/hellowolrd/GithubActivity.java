@@ -3,7 +3,7 @@ package com.playgilround.schedule.client.hellowolrd;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.playgilround.schedule.client.hellowolrd.Adapter.RepoAdapter;
+import com.playgilround.schedule.client.hellowolrd.adapter.RepoAdapter;
 import com.playgilround.schedule.client.hellowolrd.databinding.GithubMainBinding;
 import com.playgilround.schedule.client.hellowolrd.util.GithubClient;
 
