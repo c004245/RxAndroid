@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.playgilround.schedule.client.hellowolrd.adapter.StockDataAdapter;
+import com.playgilround.schedule.client.hellowolrd.util.StockUpdate;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +49,11 @@ public class TestActivity extends Activity {
         stockDataAdapter = new StockDataAdapter();
         recyclerView.setAdapter(stockDataAdapter);
 
-        Observable.just("APPL", "GOOGLE", "TWTR").subscribe(s -> stockDataAdapter.add(s));
+//        Observable.just("APPL", "GOOGLE", "TWTR").subscribe(s -> stockDataAdapter.add(s));
+        Observable.just(
+                new StockUpdate("GOOGLE", 12.43, new Date()),
+                new StockUpdate("APPL", 645.1, new Date()),
+                new StockUpdate("TWTR", 1.43, new Date())
+        ).subscribe(stockUpdate -> stockDataAdapter.add(stockUpdate));
     }
 }
