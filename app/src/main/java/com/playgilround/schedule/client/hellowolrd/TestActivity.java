@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.playgilround.schedule.client.hellowolrd.adapter.StockDataAdapter;
+import com.playgilround.schedule.client.hellowolrd.storio.StorIOFactory;
 import com.playgilround.schedule.client.hellowolrd.util.StockUpdate;
 import com.playgilround.schedule.client.hellowolrd.yahoo.RetrofitYahooServiceFactory;
 import com.playgilround.schedule.client.hellowolrd.yahoo.YahooService;
@@ -74,6 +75,7 @@ public class TestActivity extends Activity {
                 .map(r -> r.getQuery().getResults().getQuote())
                 .flatMap(r -> Observable.fromIterable(r))
                 .map(r -> StockUpdate.create(r))
+                .doOnNext(this::saveStockUpdate)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(stockUpdate -> {
                     Log.d(TAG, "New update " + stockUpdate.getStockSymbol());
@@ -94,5 +96,12 @@ public class TestActivity extends Activity {
         Log.d("APP", stage + ":" + Thread.currentThread().getName());
     }
 
-
+    private void saveStockUpdate(StockUpdate stockUpdate) {
+        StorIOFactory.get(this)
+                .put()
+                .object(stockUpdate)
+                .prepare()
+                .asRxSingle()
+                .subscribe();
+    }
 }

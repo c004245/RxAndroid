@@ -9,11 +9,11 @@ import java.util.Date;
 public class StockUpdate implements Serializable {
 
     private final String stockSymbol;
-    private final BigDecimal price;
+    private final long price;
     private final Date date;
     private Integer id;
 
-    public StockUpdate(String stockSymbol, BigDecimal price, Date date) {
+    public StockUpdate(String stockSymbol, long price, Date date) {
         this.stockSymbol = stockSymbol;
         this.price = price;
         this.date = date;
@@ -23,7 +23,7 @@ public class StockUpdate implements Serializable {
         return stockSymbol;
     }
 
-    public BigDecimal getPrice() {
+    public long getPrice() {
         return price;
     }
 
