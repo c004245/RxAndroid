@@ -28,8 +28,8 @@ public class StorIOFactory {
                 .sqliteOpenHelper(new StorIODbHelper(context))
                 .addTypeMapping(StockUpdate.class, SQLiteTypeMapping.<StockUpdate> builder()
                         .putResolver(new StockUpdatePutResolver())
-                        .getResolver(createGetResolver())
-                        .deleteResolver(createDeleteResolver())
+                        .getResolver(new StockUpdateGetResolver())
+                        .deleteResolver(new StockUpdateDeleteResolver())
                         .build()).build();
         return INSTANCE;
     }
@@ -49,9 +49,9 @@ public class StorIOFactory {
             @NonNull
             @Override
             protected DeleteQuery mapToDeleteQuery(@NonNull StockUpdate object) {
-
+                return null;
             }
-        }
+        };
     }
 
 }

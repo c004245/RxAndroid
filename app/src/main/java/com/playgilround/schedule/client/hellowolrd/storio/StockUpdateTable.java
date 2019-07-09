@@ -2,7 +2,7 @@ package com.playgilround.schedule.client.hellowolrd.storio;
 
 public class StockUpdateTable {
 
-    static final String TABLE = "stock_updates";
+    public static final String TABLE = "stock_updates";
 
     static class Columns {
         static final String ID = "_id";

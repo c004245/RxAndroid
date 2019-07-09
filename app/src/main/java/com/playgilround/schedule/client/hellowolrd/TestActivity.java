@@ -3,16 +3,20 @@ package com.playgilround.schedule.client.hellowolrd;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.playgilround.schedule.client.hellowolrd.adapter.StockDataAdapter;
+import com.playgilround.schedule.client.hellowolrd.storio.StockUpdateTable;
 import com.playgilround.schedule.client.hellowolrd.storio.StorIOFactory;
+import com.playgilround.schedule.client.hellowolrd.util.ErrorHandler;
 import com.playgilround.schedule.client.hellowolrd.util.StockUpdate;
 import com.playgilround.schedule.client.hellowolrd.yahoo.RetrofitYahooServiceFactory;
 import com.playgilround.schedule.client.hellowolrd.yahoo.YahooService;
+import com.pushtorefresh.storio.sqlite.queries.Query;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
 public class TestActivity extends Activity {
@@ -31,6 +36,9 @@ public class TestActivity extends Activity {
 
     @BindView(R.id.stock_updates_recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.no_data_available)
+    TextView noDataAvailableView;
 
     private LinearLayoutManager layoutManager;
     private StockDataAdapter stockDataAdapter;
@@ -76,11 +84,32 @@ public class TestActivity extends Activity {
                 .flatMap(r -> Observable.fromIterable(r))
                 .map(r -> StockUpdate.create(r))
                 .doOnNext(this::saveStockUpdate)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(stockUpdate -> {
-                    Log.d(TAG, "New update " + stockUpdate.getStockSymbol());
-                    stockDataAdapter.add(stockUpdate);
-                });
+                .onExceptionResumeNext(v2(StorIOFactory.get(this)
+                        .get()
+                        .listOfObjects(StockUpdate.class)
+                        .withQuery(Query.builder()
+                                .table(StockUpdateTable.TABLE)
+                                .orderBy("date DESC")
+                                .limit(50)
+                                .build())
+                        .prepare()
+                        .asRxObservable()
+                        .take(1)
+                        .flatMap(Observable::fromIterable))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(stockUpdate -> {
+                            Log.d(TAG, "New update " + stockUpdate.getStockSymbol());
+                            noDataAvailableView.setVisibility(View.GONE);
+                            stockDataAdapter.add(stockUpdate);
+                        }, error -> {
+                            if (stockDataAdapter.getItemCount() == 0) {
+                                noDataAvailableView.setVisibility(View.VISIBLE);
+                            }
+                        });
+        RxJavaPlugins.setErrorHandler(ErrorHandler.get());
+        Observable.<String>error(new Error("Crash!"))
+                .doOnError(ErrorHandler.get())
+                .subscribe(item -> log("subscribe", item), ErrorHandler.get());
 
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(data -> log(
