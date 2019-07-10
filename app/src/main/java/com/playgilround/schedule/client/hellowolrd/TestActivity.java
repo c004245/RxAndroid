@@ -111,6 +111,8 @@ public class TestActivity extends Activity {
                 .doOnError(ErrorHandler.get())
                 .subscribe(item -> log("subscribe", item), ErrorHandler.get());
 
+        Observable.interval(0, 5, TimeUnit.SECONDS)
+                        .compose(bindToLifecycle()))
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(data -> log(
 //                        data.getQuery().getResults().getQuote().get(0).getSymbol())
