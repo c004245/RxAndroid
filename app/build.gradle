@@ -68,4 +68,9 @@ dependencies {
     //StorIO
     implementation 'com.pushtorefresh.storio:sqlite:1.12.1'
     annotationProcessor 'com.pushtorefresh.storio:sqlite-annotations-processor:1.12.1'
+
+    //RxLifeCycle
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
 }
